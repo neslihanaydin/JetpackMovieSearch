@@ -25,7 +25,7 @@ import com.nt.moviesappcompose.ui.theme.Typography
 @Composable
 fun MovieCard(
     movie: Movie,
-    //isClikable: Boolean = false,
+    displayTitle: Boolean = true,
     onClick: (movieId: String) -> Unit = {}
 ) {
     Column(
@@ -36,22 +36,9 @@ fun MovieCard(
                 shape = RoundedCornerShape(size = 15.dp)
             )
             .background(Color.Black)
-            /*
-            .then(
-                if (isClikable) {
-                    Modifier.clickable {
-                        onClick(movie.imdbID)
-                    }
-                } else {
-                    Modifier
-                }
-
-            )
-             */
             .clickable {
                 onClick(movie.imdbID)
             },
-       // verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Column(
             modifier = Modifier
@@ -67,18 +54,20 @@ fun MovieCard(
                 contentScale = ContentScale.FillBounds
             )
         }
-        Column(
-            modifier = Modifier.padding(20.dp)
-                .background(color = Color.Transparent)
-        ) {
-            Text(
-                movie.Title,
-                textAlign = TextAlign.Center,
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,  // title ...
-                color = Color.White,
-                style = Typography.titleLarge
-            )
+        if (displayTitle) {
+            Column(
+                modifier = Modifier.padding(20.dp)
+                    .background(color = Color.Transparent)
+            ) {
+                Text(
+                    movie.Title,
+                    textAlign = TextAlign.Center,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,  // title ...
+                    color = Color.White,
+                    style = Typography.titleLarge
+                )
+            }
         }
     }
 }

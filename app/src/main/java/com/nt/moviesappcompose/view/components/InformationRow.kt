@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredSize
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +20,8 @@ import com.nt.moviesappcompose.ui.theme.MoviesAppComposeTheme
 fun InformationRow(
     title: String,
     description: String,
-    changeBackgroundColor: Boolean = false
+    changeBackgroundColor: Boolean = false,
+    titleWidth: Int
 ){
     val textColor = if (!changeBackgroundColor) Color.White else Color.Black
     Row(
@@ -34,14 +35,13 @@ fun InformationRow(
                 })
             .padding(vertical = 10.dp, horizontal = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
-        //horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             "$title ",
             fontWeight = FontWeight.Bold,
             color = textColor,
             modifier = Modifier
-                .requiredSize(width = 80.dp, height = 20.dp),
+                .width(titleWidth.dp),
         )
         Text(
             "$description",
@@ -58,6 +58,6 @@ fun InformationRow(
 fun GreetingPreview() {
     MoviesAppComposeTheme {
         //InformationRow("Released", "Some Description about movie, Description about movie, Description about movie, Description about movie,")
-        InformationRow("Year", "2222", true)
+        InformationRow("Year", "2222", true, 29)
     }
 }

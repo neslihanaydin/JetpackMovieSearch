@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.nt.moviesappcompose.model.LoadingState
@@ -29,6 +30,7 @@ fun MovieDetailView(
     viewModel: MovieDetailViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.uiState.collectAsState()
+    val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.getMovieDetail(movieId)
     }
@@ -59,13 +61,9 @@ fun MovieDetailView(
                                 .aspectRatio(0.65F),
                             contentScale = ContentScale.FillBounds
                         )
-                        InformationRow(title = "Title", description = movie.Title, true)
-                        InformationRow(title = "Rating", description = movie.imdbRating, false)
-                        InformationRow(title = "Released", description = movie.Released, true)
-                        InformationRow(title = "Director", description = movie.Director, false)
-                        InformationRow(title = "Genre", description = movie.Genre, true)
-                        InformationRow(title = "Runtime", description = movie.Runtime, false)
-                        InformationRow(title = "Plot", description = movie.Plot, true)
+                        movie.informationRows(context).forEachIndexed { index, movie ->
+                            InformationRow(title = movie.first, description = movie.second, index % 2 == 0, 80)
+                        }
                     }
                 }
             }

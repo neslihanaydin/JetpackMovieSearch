@@ -17,7 +17,7 @@ fun PlaceholderImage() {
         painter = painterResource(id = R.drawable.nomovie),
         contentDescription = "Placeholder image",
         modifier = Modifier
-            .size(250.dp)
+            .size(100.dp)
             .clip(
                 shape = RoundedCornerShape(size = 15.dp)
             ),

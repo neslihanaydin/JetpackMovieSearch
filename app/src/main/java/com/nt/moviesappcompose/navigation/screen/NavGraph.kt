@@ -24,20 +24,20 @@ fun NavGraph(
         navHostController,
         startDestination
     ) {
-        addDestionations(
+        addDestinations(
             Destinations,
             navHostController
         )
     }
 }
 
-fun NavGraphBuilder.addDestionations(
-    destionations: Map<Screen, ScreenUI>,
+fun NavGraphBuilder.addDestinations(
+    destinations: Map<Screen, ScreenUI>,
     navController: NavController
 ) {
-    destionations.forEach { entry ->
-        val destionation = entry.key
-        composable(destionation.route(), destionation.arguments) {
+    destinations.forEach { entry ->
+        val destination = entry.key
+        composable(destination.route(), destination.arguments) {
             entry.value.makeUI(
                 navController,
                 it.arguments

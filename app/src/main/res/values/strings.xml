@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MoviesAppCompose</string>
+    <string name="movie_title">Title</string>
+    <string name="movie_rating">Rating</string>
+    <string name="movie_released">Released</string>
+    <string name="movie_director">Director</string>
+    <string name="movie_genre">Genre</string>
+    <string name="movie_runtime">Runtime</string>
+    <string name="movie_plot">Plot</string>
+
 </resources>

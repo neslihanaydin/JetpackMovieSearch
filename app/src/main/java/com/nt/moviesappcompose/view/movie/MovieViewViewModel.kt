@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nt.moviesappcompose.api.RetrofitAPI
 import com.nt.moviesappcompose.model.LoadingState
+import com.nt.moviesappcompose.model.Movie
 import com.nt.moviesappcompose.model.SearchResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -21,7 +22,8 @@ import javax.inject.Inject
 data class MovieViewUIState(
     var response: SearchResponse? = null,
     var loadingState: LoadingState = LoadingState.Initial,
-    val searchText: MutableState<String> = mutableStateOf("")
+    val searchText: MutableState<String> = mutableStateOf(""),
+    val previewMovies: MutableList<Movie> = mutableListOf()
 )
 
 @HiltViewModel
@@ -30,15 +32,35 @@ class MovieViewViewModel @Inject constructor(
 ): ViewModel() {
     private val _uiState = MutableStateFlow(MovieViewUIState())
     val uiState: StateFlow<MovieViewUIState> = _uiState.asStateFlow()
+
     var job: Job? = null
-    /*
+
     init {
         viewModelScope.launch {
-            searchMovie(title = "harry")
+            createPreviewMovies()
         }
     }
-    */
 
+    private suspend fun createPreviewMovies() {
+        val movieIdArray = arrayOf("tt1201607", "tt0120737", "tt0903624", "tt1375666", "tt0099785")
+        movieIdArray.forEach { movieId ->
+            getMovieById(movieId)
+        }
+    }
+    private suspend fun getMovieById(movieId: String) {
+        _uiState.update {
+            it.copy(
+                loadingState = LoadingState.Loading
+            )
+        }
+        val movie = retrofitAPI.getMovie(movieId)
+        _uiState.value.previewMovies.add(movie)
+        _uiState.update {
+            it.copy(
+                loadingState = LoadingState.Initial
+            )
+        }
+    }
     fun updateSearchText(searchText: String) {
         _uiState.value.searchText.value = searchText
         job?.cancel()

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
@@ -70,7 +71,7 @@ fun MovieView(
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding(),
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Top,
     ) {
         SearchField(viewModel)
 
@@ -91,6 +92,28 @@ fun MovieView(
                             .padding(vertical = 14.dp),
                         textAlign = TextAlign.Center
                     )
+                    Text(
+                        "Here are some suggestions!",
+                        style = Typography.titleLarge,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 14.dp),
+                        textAlign = TextAlign.Center
+                    )
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        item {
+                            uiState.value.previewMovies.forEach { movie ->
+                                MovieCard(
+                                    movie,
+                                    false,
+                                    onClick
+                                )
+                            }
+                        }
+                    }
+
                 }
                 is LoadingState.Success -> {
                     uiState.value.response?.let { searchResponse ->
